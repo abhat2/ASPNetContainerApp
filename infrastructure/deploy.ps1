@@ -16,7 +16,7 @@ $dateTimeStamp = Get-Date -Format "yyyyMMddhhmm"
 $location = "Australia East"
 
 # Connect to Azure tenant and subscription
-# Connect-AzAccount -Tenant $TenantID -Subscription $SubscriptionId
+Connect-AzAccount -Tenant $TenantID -Subscription $SubscriptionId
 
 # Deploy resource groups template
 $deploymentName =  "ResourceGroupsDeployment$dateTimeStamp"
