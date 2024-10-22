@@ -55,3 +55,4 @@ stages:
         appSettings: >-
           -DOCKER_REGISTRY_SERVER_URL "$(containerRegistryEndpoint)"
           -DOCKER_REGISTRY_SERVER_USERNAME "$(containerRegistry)"
+          -DOCKER_REGISTRY_SERVER_PASSWORD "$(containerRegistryPassword)"
