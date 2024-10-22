@@ -1,7 +1,6 @@
 trigger:
   branches:
     include:
-    - feature/*
     - main
 
 resources:
@@ -54,3 +53,7 @@ stages:
         WebAppName: '$(appName)'
         DockerNamespace: '$(containerRegistryEndpoint)'
         DockerRepository: '$(imageRepository):$(tag)'
+        AppSettings: >-
+          -DOCKER_REGISTRY_SERVER_URL "$(containerRegistryEndpoint)"
+          -DOCKER_REGISTRY_SERVER_USERNAME "$(containerRegistry)"
+          -DOCKER_REGISTRY_SERVER_PASSWORD "$(containerRegistryPassword)"
