@@ -49,3 +49,6 @@ stages:
         azureSubscription: $(azureSubscription)
         appName: $(appName)
         containers: $(containerRegistry)/$(imageRepository):$(tag)
+        appSettings: >-
+          -DOCKER_REGISTRY_SERVER_URL "$(containerRegistryEndpoint)"
+          -DOCKER_REGISTRY_SERVER_USERNAME "$(containerRegistry)"
