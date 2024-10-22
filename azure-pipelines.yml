@@ -9,7 +9,7 @@ variables:
   - name: dockerfilePath
     value : '$(Build.SourcesDirectory)/app/AspContainerApp/Dockerfile'
   - name: tag
-    value: '$(Build.BuildId)'
+    value: 'latest'
   - name: vmImageName
     value: 'ubuntu-latest'
 
