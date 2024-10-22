@@ -11,7 +11,7 @@ variables:
   - name: tag
     value: '$(Build.BuildId)'
   - name: vmImageName
-    value: 'windows-latest'
+    value: 'windows-2019'
 
 stages:
 - stage: Build
