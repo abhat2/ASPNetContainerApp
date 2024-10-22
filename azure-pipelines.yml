@@ -34,6 +34,9 @@ stages:
 
 - stage: Deploy
   displayName: Deploy stage
+  dependsOn: 
+    - Build
+  condition: eq(dependencies.Build.result, 'Succeeded')
   jobs:
   - job: Deploy
     displayName: Deploy
