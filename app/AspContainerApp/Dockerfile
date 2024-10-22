@@ -5,8 +5,6 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-nanoserver-1809 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0-nanoserver-1809 AS build
 ARG BUILD_CONFIGURATION=Release
