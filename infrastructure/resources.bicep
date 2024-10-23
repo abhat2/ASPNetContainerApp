@@ -109,6 +109,7 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' =
     name: 'Standard'
   }
   properties: {
+    adminUserEnabled: true
     publicNetworkAccess: 'Enabled'
     zoneRedundancy: 'Disabled'
   }
@@ -117,15 +118,18 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' =
 // App Service Plan
 var appServicePlanName = 'asp-asp-container-app'
 
-resource appServicePlan 'Microsoft.Web/serverfarms@2021-02-01' = {
+resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: appServicePlanName
   location: location
   tags: tags
   sku: {
-    tier: 'Premium0V3'
-    name: 'P0V3'
+    tier: 'PremiumMV3'
+    name: 'P1mv3'
   }
+  kind: 'windows'
   properties: {
+    isXenon: true
+    hyperV: true
     targetWorkerCount: 1
     targetWorkerSizeId: 1
     reserved: false
@@ -177,20 +181,21 @@ resource appService 'Microsoft.Web/sites@2023-12-01' = {
   name: appServiceName
   location: location
   tags: tags
-  kind: 'app'
+  kind: 'app,container,windows'
   identity: {
     type: 'SystemAssigned'
   }
   properties: {
     serverFarmId: appServicePlan.id
     reserved: false
+    isXenon: true
+    hyperV: true
     siteConfig: {
       numberOfWorkers: 1
+      windowsFxVersion: 'DOCKER|mcr.microsoft.com/azure-app-service/windows/parkingpage:latest'
       alwaysOn: true
       http20Enabled: false
       ftpsState: 'FtpsOnly'
-      netFrameworkVersion: 'v6.0'
-      use32BitWorkerProcess: false
       appSettings: [
         {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
@@ -218,7 +223,6 @@ resource appService 'Microsoft.Web/sites@2023-12-01' = {
         }
       ]
       ipSecurityRestrictions: []
-      windowsFxVersion: 'DOCKER|mcr.microsoft.com/azure-app-service/windows/parkingpage:latest'
     }
     httpsOnly: true
     redundancyMode: 'None'
