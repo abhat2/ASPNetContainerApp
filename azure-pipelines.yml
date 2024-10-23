@@ -11,7 +11,7 @@ variables:
   - name: dockerfilePath
     value : '$(Build.SourcesDirectory)/app/AspContainerApp/Dockerfile'
   - name: tag
-    value: 'latest'
+    value: '$(Build.BuildId)'
   - name: vmImageName
     value: 'windows-2019'
 
