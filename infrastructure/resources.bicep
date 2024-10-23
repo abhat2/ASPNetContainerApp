@@ -128,11 +128,15 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   }
   kind: 'windows'
   properties: {
+    perSiteScaling: false
+    elasticScaleEnabled: true
+    maximumElasticWorkerCount: 3
     isXenon: true
     hyperV: true
     targetWorkerCount: 1
     targetWorkerSizeId: 1
     reserved: false
+    zoneRedundant: false
   }
 }
 
