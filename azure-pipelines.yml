@@ -45,15 +45,8 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - task: AzureRmWebAppDeployment@4
+    - task: AzureWebAppContainer@1
       inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'Visual Studio Enterprise Subscription'
-        appType: 'webAppHyperVContainer'
-        WebAppName: '$(appName)'
-        DockerNamespace: '$(containerRegistryEndpoint)'
-        DockerRepository: '$(imageRepository):$(tag)'
-        AppSettings: >-
-          -DOCKER_REGISTRY_SERVER_URL "$(containerRegistryEndpoint)"
-          -DOCKER_REGISTRY_SERVER_USERNAME "$(containerRegistry)"
-          -DOCKER_REGISTRY_SERVER_PASSWORD "$(containerRegistryPassword)"
+        azureSubscription: '$(azureSubscription)'
+        appName: '$(appName)'
+        imageName: '$(containerRegistry).azurecr.io/$(imageRepository):$(tag)'
