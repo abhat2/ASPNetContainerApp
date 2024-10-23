@@ -17,7 +17,7 @@ variables:
 
 stages:
 - stage: Build
-  displayName: Build and push stage
+  displayName: Build and push image
   jobs:
   - job: Build
     displayName: Build
@@ -25,7 +25,7 @@ stages:
       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
-      displayName: Build and push image to container registry
+      displayName: Build and push image
       inputs:
         command: buildAndPush
         repository: $(imageRepository)
@@ -35,7 +35,7 @@ stages:
           $(tag)
 
 - stage: DeployStaging
-  displayName: Deploy to staging slot
+  displayName: Deploy container to staging
   dependsOn: 
     - Build
   condition: eq(dependencies.Build.result, 'Succeeded')
@@ -59,7 +59,7 @@ stages:
           -DOCKER_REGISTRY_SERVER_PASSWORD "$(containerRegistryPassword)"
 
 - stage: DeployProduction
-  displayName: Swap staging slot with production
+  displayName: Swap staging and production
   dependsOn: 
     - DeployStaging
   condition: eq(dependencies.DeployStaging.result, 'Succeeded')
