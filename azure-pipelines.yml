@@ -50,6 +50,9 @@ stages:
         azureSubscription: '$(azureSubscription)'
         appName: '$(appName)'
         imageName: '$(containerRegistry).azurecr.io/$(imageRepository):$(tag)'
+        deployToSlotOrASE: true
+        resourceGroupName: '$(resourceGroup)'
+        slotName: staging
         appSettings: >-
           -DOCKER_REGISTRY_SERVER_URL "https://$(containerRegistry).azurecr.io"
           -DOCKER_REGISTRY_SERVER_USERNAME "$(containerRegistry)"
