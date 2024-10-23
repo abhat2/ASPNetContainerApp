@@ -34,8 +34,8 @@ stages:
         tags: |
           $(tag)
 
-- stage: Deploy
-  displayName: Deploy stage
+- stage: DeployStaging
+  displayName: Deploy to staging slot
   dependsOn: 
     - Build
   condition: eq(dependencies.Build.result, 'Succeeded')
@@ -57,3 +57,26 @@ stages:
           -DOCKER_REGISTRY_SERVER_URL "https://$(containerRegistry).azurecr.io"
           -DOCKER_REGISTRY_SERVER_USERNAME "$(containerRegistry)"
           -DOCKER_REGISTRY_SERVER_PASSWORD "$(containerRegistryPassword)"
+
+- stage: DeployProduction
+  displayName: Swap staging slot with production
+  dependsOn: 
+    - DeployStaging
+  condition: eq(dependencies.DeployStaging.result, 'Succeeded')
+  jobs:
+  - deployment: Deploy
+    displayName: Swap Staging and Production Slot
+    pool:
+      vmImage: $(vmImageName)
+    environment: 'Production'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureAppServiceManage@0
+            inputs:
+              azureSubscription: '$(azureSubscription)'
+              WebAppName: '$(appName)'
+              ResourceGroupName: '$(resourceGroup)'
+              SourceSlot: staging
+              SwapWithProduction: true
