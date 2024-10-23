@@ -229,6 +229,62 @@ resource appService 'Microsoft.Web/sites@2023-12-01' = {
   }
 }
 
+// App Service Slot - staging
+var slotName = 'staging'
+
+resource appServiceStaging 'Microsoft.Web/sites/slots@2023-12-01' = {
+  parent: appService
+  name: slotName
+  location: location
+  tags: tags
+  kind: 'app,container,windows'
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    serverFarmId: appServicePlan.id
+    reserved: false
+    isXenon: true
+    hyperV: true
+    siteConfig: {
+      numberOfWorkers: 1
+      windowsFxVersion: 'DOCKER|mcr.microsoft.com/azure-app-service/windows/parkingpage:latest'
+      alwaysOn: true
+      http20Enabled: false
+      ftpsState: 'FtpsOnly'
+      appSettings: [
+        {
+          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+          value: appInsights.properties.InstrumentationKey
+        }
+        {
+          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+          value: appInsights.properties.ConnectionString
+        }
+        {
+          name: 'DOCKER_REGISTRY_SERVER_URL'
+          value: 'https://mcr.microsoft.com'
+        }
+        {
+          name: 'DOCKER_REGISTRY_SERVER_USERNAME'
+          value: ''
+        }
+        {
+          name: 'DOCKER_REGISTRY_SERVER_PASSWORD'
+          value: null
+        }
+        {
+          name: 'WEBSITES_ENABLE_APP_SERVICE_STORAGE'
+          value: 'true'
+        }
+      ]
+      ipSecurityRestrictions: []
+    }
+    httpsOnly: true
+    redundancyMode: 'None'
+  }
+}
+
 // Outputs
 output logAnalyticsName string = logAnalytics.name
 output logAnalyticsId string = logAnalytics.id
@@ -244,3 +300,5 @@ output appInsightsName string = appInsights.name
 output appInsightsId string = appInsights.id
 output appServiceName string = appService.name
 output appServiceId string = appService.id
+output appServiceStagingName string = appServiceStaging.name
+output appServiceStagingId string = appServiceStaging.id
