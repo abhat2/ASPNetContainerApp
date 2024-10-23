@@ -225,6 +225,10 @@ resource appService 'Microsoft.Web/sites@2023-12-01' = {
           name: 'WEBSITES_ENABLE_APP_SERVICE_STORAGE'
           value: 'true'
         }
+        {
+          name: 'WEBSITES_PORT'
+          value: '8080,8081'
+        }
       ]
       ipSecurityRestrictions: []
     }
@@ -280,6 +284,10 @@ resource appServiceStaging 'Microsoft.Web/sites/slots@2023-12-01' = {
         {
           name: 'WEBSITES_ENABLE_APP_SERVICE_STORAGE'
           value: 'true'
+        }
+        {
+          name: 'WEBSITES_PORT'
+          value: '8080,8081'
         }
       ]
       ipSecurityRestrictions: []
