@@ -128,11 +128,15 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   }
   kind: 'windows'
   properties: {
+    perSiteScaling: false
+    elasticScaleEnabled: true
+    maximumElasticWorkerCount: 3
     isXenon: true
     hyperV: true
     targetWorkerCount: 1
     targetWorkerSizeId: 1
     reserved: false
+    zoneRedundant: false
   }
 }
 
@@ -221,6 +225,10 @@ resource appService 'Microsoft.Web/sites@2023-12-01' = {
           name: 'WEBSITES_ENABLE_APP_SERVICE_STORAGE'
           value: 'true'
         }
+        {
+          name: 'WEBSITES_PORT'
+          value: '8080,8081'
+        }
       ]
       ipSecurityRestrictions: []
     }
@@ -276,6 +284,10 @@ resource appServiceStaging 'Microsoft.Web/sites/slots@2023-12-01' = {
         {
           name: 'WEBSITES_ENABLE_APP_SERVICE_STORAGE'
           value: 'true'
+        }
+        {
+          name: 'WEBSITES_PORT'
+          value: '8080,8081'
         }
       ]
       ipSecurityRestrictions: []
