@@ -6,6 +6,9 @@ namespace AspContainerApp
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Enable Application Insights telemetry
+            builder.Services.AddApplicationInsightsTelemetry();
+
             // Add services to the container.
             builder.Services.AddRazorPages();
 
